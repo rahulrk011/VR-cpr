@@ -63,9 +63,9 @@ public class ObjectController : MonoBehaviour
     private Renderer _myRenderer;
     private Vector3 _startingPosition;
 
-    float pulseTimer = 10.0f;
+    float pulseTimer = 5.0f;
     // For the sake of presentation, set to 25. Functionally, it should be 60.
-    float compressionTimer = 25.0f;
+    float compressionTimer = 20.0f;
     int compressionCount = 0;
 
     /// <summary>
@@ -100,7 +100,7 @@ public class ObjectController : MonoBehaviour
             }
         }
 
-        if (Compressions && compressionCount > 0)
+        if (Compressions && compressionCount > 0 )
         {
             if (compressionTimer > 0)
             {
@@ -109,10 +109,19 @@ public class ObjectController : MonoBehaviour
             }
             else
             {
+                
                 Compressions = false;
                 compressionsUI.gameObject.SetActive(false);
-                thankYouSound.gameObject.SetActive(true);
-                textObject.text = "\"Thank you! You saved my life!\"";
+                if(compressionCount<61 && compressionCount > 39)
+                {
+                    thankYouSound.gameObject.SetActive(true);
+                    textObject.text = "\"Thank you! You saved my life!\"";
+                }
+                else
+                {
+                    textObject.text = "\"You killed the person -_-\"";
+                }
+                
             }
         }
     }
@@ -189,8 +198,7 @@ public class ObjectController : MonoBehaviour
 
     public void FalseQuiz()
     {
-        textObject.text = "The patient is clearly not drowning. Assess and try again.";
-        falseButton.gameObject.SetActive(false);
+        textObject.text = "Assess properly and try again.";
     }
 
     public void CorrectQuiz()
@@ -198,7 +206,7 @@ public class ObjectController : MonoBehaviour
         ConditionQuiz = true;
         trueButton.gameObject.SetActive(false);
         falseButton.gameObject.SetActive(false);
-        textObject.text = "The patient is choking. Crouch down to the patient's level to check their pulse.";
+        textObject.text = "You assesed properly. Now Crouch down to the patient's level to check their pulse.";
     }
 
     /// <summary>
